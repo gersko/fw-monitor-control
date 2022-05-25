@@ -1,8 +1,11 @@
 # monitor-control.py
 
-Schaltet per Taster den Monitor in der Fahrzeughalle an oder aus.
+## Funktion
 
-## Skript als Service auf Raspbian ausführen
+Schaltet per Taster den Monitor in der Fahrzeughalle an oder aus.  
+Um den Monitor an-/auszuschalten zieht man, bei Verwendung eines Pi Zeros, mit dem Taster `GPIO 18` auf `GND`. Wenn ein anderes Board verwendet wird, muss evtl. der GPIO Pin im Skript angepasst werden.
+
+## Einrichtung: Skript als Service in Raspbian ausführen
 
 ### Voraussetzungen
 
@@ -13,12 +16,12 @@ Schaltet per Taster den Monitor in der Fahrzeughalle an oder aus.
 
 ### Installation
 
-#### 1. Python Modul `cec` mit Abhängigkeiten installieren:
+1. **Python Modul [`python-cec`](https://github.com/trainman419/python-cec) mit Abhängigkeiten installieren:**
 
-       sudo apt install python3-dev build-essential libcec-dev cec-utils && pip3 install cec
+       sudo apt install libcec-dev build-essential python-dev && pip install cec
 
-#### 2. `monitor-control.py` nach `/usr/bin` kopieren.
-#### 3. Service erstellen:
+2. **`monitor-control.py` nach `/usr/bin` kopieren.**
+3. **Service erstellen:**
 
        sudo nano /lib/systemd/system/monitor-control.service
    
@@ -29,46 +32,43 @@ Schaltet per Taster den Monitor in der Fahrzeughalle an oder aus.
 
        [Service]
        Type=simple
-       ExecStart=/usr/bin/python3 /usr/bin/monitor-control.py
+       ExecStart=/usr/bin/python /usr/bin/monitor-control.py
        User=pi
 
        [Install]
        WantedBy=multi-user.target
 
-#### 4. Systemctl Daemon aktualisieren:
+4. **Systemctl Daemon aktualisieren:**
 
        sudo systemctl daemon-reload
 
-#### 5. Service aktivieren:
+5. **Service aktivieren:**
 
        sudo systemctl enable monitor-control
 
-#### 6. Service starten:
+6. **Service starten:**
 
        sudo systemctl start monitor-control
 
-#### 7. HDMI Hotplug aktivieren:  
+7. **HDMI Hotplug aktivieren:**  
    Dazu folgende Zeile in `/boot/config.txt` ***ent***kommentieren:
 
        hdmi_force_hotplug=1
 
-## Basis Befehle von CEC-Util
+## Troubleshooting Hilfe: Der `cec-client`
 
-<table>
-  <tr>
-    <td>An</td>
-    <td><pre>echo on 0 | cec-client -s -d 1</pre></td>
-  </tr>
-  <tr>
-    <td>Aus</td>
-    <td><pre>echo standby 0 | cec-client -s -d 1</pre></td>
-  </tr>
-  <tr>
-    <td>Bildschirm Status</td>
-    <td><pre>echo pow 0 | cec-client -s -d 1</pre></td>
-  </tr>
-  <tr>
-    <td>Hilfe</td>
-    <td><pre>echo h | cec-client -s -d 1</pre></td>
-  </tr>
-</table>
+Der `cec-client` ist Teil von [`cec-utils`](https://github.com/Pulse-Eight/libcec), einer Library, mit der CEC-fähige Monitore/Fernseher gesteuert werden können.
+
+### Installation von [`cec-utils`](https://github.com/Pulse-Eight/libcec):
+
+    sudo apt install cec-utils
+
+### Eine Auswahl von wichtigen Befehlen:
+
+| Aktion                          | Befehl                                 |
+| ------------------------------- | -------------------------------------- |
+| An                              | `echo on 0 \| cec-client -s -d 1`      |
+| Aus                             | `echo standby 0 \| cec-client -s -d 1` |
+| Bildschirm Status               | `echo pow 0 \| cec-client -s -d 1`     |
+| Nach verfügbaren Geräten suchen | `echo scan \| cec-client -s -d 1`      |
+| Alle Befehle anzeigen           | `echo h \| cec-client -s -d 1`         |
