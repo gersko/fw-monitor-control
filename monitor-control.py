@@ -28,10 +28,29 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             print_("HTTP request: turn monitor on.")
             http_action = "turn_on"
             self.send_response(200)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+            self.wfile.write(b"Turning monitor on...")
         elif self.path == "/monitor?turn=off":
             print_("HTTP request: turn monitor off.")
             http_action = "turn_off"
             self.send_response(200)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+            self.wfile.write(b"Turning monitor off...")
+        elif self.path == "/monitor?status":
+            print_("HTTP request: send status.")
+            try:
+                if cec_tv.is_on():
+                    status = b"Monitor is on."
+                else:
+                    status = b"Monitor is off."
+            except Exception as e:
+                status = str.encode("Failed to get the status: " + str(e))
+            self.send_response(200)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+            self.wfile.write(status)
         else:
             self.send_response(400)
 
