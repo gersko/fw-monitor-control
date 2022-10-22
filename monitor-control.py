@@ -89,21 +89,21 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         global cec_reinit
         global http_action
         if self.path == "/monitor?turn=on":
-            print_("HTTP request: turn monitor on.")
+            print_(f"HTTP request from {self.client_address[0]}: turn monitor on.")
             http_action = "turn_on"
             self.send_response(200)
             self.send_header("Content-type", "text/plain")
             self.end_headers()
             self.wfile.write(b"Turning monitor on...")
         elif self.path == "/monitor?turn=off":
-            print_("HTTP request: turn monitor off.")
+            print_(f"HTTP request from {self.client_address[0]}: turn monitor off.")
             http_action = "turn_off"
             self.send_response(200)
             self.send_header("Content-type", "text/plain")
             self.end_headers()
             self.wfile.write(b"Turning monitor off...")
         elif self.path == "/monitor?state":
-            print_("HTTP request: retrieve monitor state.")
+            print_(f"HTTP request from {self.client_address[0]}: retrieve monitor state.")
             cec_tv_state = get_monitor_state()
             if cec_tv_state is None:
                 state = (
