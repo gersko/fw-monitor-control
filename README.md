@@ -81,6 +81,10 @@ Der Monitor ebenso über folgende HTTP Requests gesteuert werden:
 
        GET http://<ip-address>:8080/monitor?turn=off
 
+#### Monitor Status abfragen:
+
+       GET http://<ip-address>:8080/monitor?state
+
 ## Troubleshooting Hilfe: Der `cec-client`
 
 Der `cec-client` ist Teil von [`cec-utils`](https://github.com/Pulse-Eight/libcec), einer Library, mit der CEC-fähige Monitore/Fernseher gesteuert werden können.
