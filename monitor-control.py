@@ -53,7 +53,6 @@ def get_monitor_state():
     return state
 
 def toggle_monitor(action=None):
-    global cec_reinit
     global http_action
 
     print_(f"Toggle monitor (action={action})...")
@@ -86,7 +85,6 @@ def toggle_monitor(action=None):
 
 class RequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
-        global cec_reinit
         global http_action
         if self.path == "/monitor?turn=on":
             print_(f"HTTP request from {self.client_address[0]}: turn monitor on.")
