@@ -151,6 +151,9 @@ if not cec_init():
 cec_tv = cec.Device(cec.CECDEVICE_TV)
 get_monitor_state()
 
+# Turn on monitor before the FF-Agent Status-Monitor RPi boots up
+toggle_monitor("turn_on")
+
 # Initialize GPIO
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(18, GPIO.IN, pull_up_down = GPIO.PUD_DOWN)
