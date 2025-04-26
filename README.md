@@ -15,53 +15,87 @@ Schaltet per Taster oder HTTP Request den Monitor in der Fahrzeughalle an oder a
 
 ### Funktionierende Umgebung
 
-- Raspberry Pi OS 10 (buster) auf einem Pi Zero W
-- Python 3.7
-- python-cec 0.2.8
+- Raspberry Pi OS 12 (bookworm) auf einem Pi Zero W
+- Python 3.11
+  - [RPi.GPIO](https://pypi.org/project/RPi.GPIO/) 0.7.1
+  - [python-cec](https://pypi.org/project/cec/) 0.2.8
 
 ### Installation
 
-1. **Python Modul [`python-cec`](https://github.com/trainman419/python-cec) mit Abhängigkeiten installieren:**
+1. **Abhängigkeiten des Python Moduls [`python-cec`](https://github.com/trainman419/python-cec) installieren:**
 
-       sudo apt install libcec-dev build-essential python3-dev && pip3 install cec
+   ```
+   sudo apt install libcec-dev build-essential python3-dev
+   ```
 
-2. **Repository nach `/usr/bin` klonen:**
+2. **In das Verzeichnis `/home/pi` wechseln und Repository klonen:**
 
-       sudo git clone https://github.com/gersko/fw-monitor-control /usr/bin/fw-monitor-control
+   ```
+   cd /home/pi/
+   ```
+   ```
+   sudo git clone https://github.com/gersko/fw-monitor-control
+   ```
 
-3. **Service erstellen:**
+3. **Virtual Environment erstellen und [`python-cec`](https://github.com/trainman419/python-cec) installieren**
 
-       sudo nano /lib/systemd/system/monitor-control.service
-   
+   ```
+   cd fw-monitor-control/
+   ```
+   ```
+   python -m venv .venv
+   ```
+   ```
+   .venv/bin/pip install -r requirements.txt
+   ```
+
+4. **Service erstellen:**
+   ```
+   sudo nano /lib/systemd/system/monitor-control.service
+   ```
+
    Inhalt von `monitor-control.service`:
 
-       [Unit]
-       Description=Monitor Control
+   ```   
+   [Unit]
+   Description=Monitor Control
 
-       [Service]
-       Type=simple
-       ExecStart=/usr/bin/python3 /usr/bin/fw-monitor-control/monitor-control.py
-       User=pi
+   [Service]
+   Type=simple
+   ExecStart=/home/pi/fw-monitor-control/.venv/bin/python /home/pi/fw-monitor-control/monitor-control.py
+   User=pi
 
-       [Install]
-       WantedBy=multi-user.target
+   [Install]
+   WantedBy=multi-user.target
+   ```
 
-4. **Systemctl Daemon aktualisieren:**
+5. **Service aktivieren und starten:**
 
-       sudo systemctl daemon-reload
+   Systemctl Daemon aktualisieren:
 
-5. **Service aktivieren:**
+   ```
+   sudo systemctl daemon-reload
+   ```
 
-       sudo systemctl enable monitor-control
+   Service aktivieren:
 
-6. **Service starten:**
+   ```
+   sudo systemctl enable monitor-control
+   ```
 
-       sudo systemctl start monitor-control
+   Service starten:
 
-7. **HDMI Hotplug aktivieren:**  
-   Dazu folgende Zeile in `/boot/config.txt` ***ent***kommentieren:
+   ```
+   sudo systemctl start monitor-control
+   ```
 
-       hdmi_force_hotplug=1
+6. **HDMI Hotplug aktivieren:**  
+   Dazu folgende Zeile in `/boot/firmware/config.txt` hinzufügen:
+
+   ```
+   hdmi_force_hotplug=1
+   ```
+
 
 ## Bedienung
 
@@ -71,7 +105,7 @@ Um den Monitor an-/auszuschalten zieht man, bei Verwendung eines Pi Zeros, mit d
 
 ### Monitor per HTTP Request steuern
 
-Der Monitor ebenso über folgende HTTP Requests gesteuert werden:
+Der Monitor kann ebenso über folgende HTTP Requests gesteuert werden:
 
 #### Monitor anschalten:
 
@@ -87,7 +121,7 @@ Der Monitor ebenso über folgende HTTP Requests gesteuert werden:
 
 ## Troubleshooting Hilfe: Der `cec-client`
 
-Der `cec-client` ist Teil von [`cec-utils`](https://github.com/Pulse-Eight/libcec), einer Library, mit der CEC-fähige Monitore/Fernseher gesteuert werden können.
+Der `cec-client` ist Teil von [`cec-utils`](https://github.com/Pulse-Eight/libcec), einer Library, mit der CEC-fähige Monitore/Fernseher gesteuert werden können. Er kann nur genutzt werden, wenn `monitor-control.py` nicht aktiv ist.
 
 ### Installation von [`cec-utils`](https://github.com/Pulse-Eight/libcec):
 
