@@ -145,9 +145,15 @@ time_http_last_action = 0
 print_("Monitor control started.")
 
 # Initialize CEC
-if not cec_init():
-    print_("Monitor control exiting...")
-    exit()
+cec_initial_init_fail_count = 0
+while not cec_init():
+    cec_initial_init_fail_count += 1
+    if cec_initial_init_fail_count < 10:
+        time.sleep(10)
+        continue
+    else:
+        print_("CEC initialization failed 10 times. Monitor control exiting...")
+        exit()
 cec_tv = cec.Device(cec.CECDEVICE_TV)
 get_monitor_state()
 
