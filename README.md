@@ -63,7 +63,8 @@ Schaltet per Taster oder HTTP Request den Monitor in der Fahrzeughalle an oder a
    [Service]
    Type=simple
    ExecStart=/home/pi/fw-monitor-control/.venv/bin/python /home/pi/fw-monitor-control/monitor-control.py
-   User=pi
+   # Run as root to prevent segmentation fault caused by python-cec
+   User=root
 
    [Install]
    WantedBy=multi-user.target
