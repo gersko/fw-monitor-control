@@ -34,7 +34,7 @@ Schaltet per Taster oder HTTP Request den Monitor in der Fahrzeughalle an oder a
    cd /home/pi/
    ```
    ```
-   sudo git clone https://github.com/gersko/fw-monitor-control
+   git clone https://github.com/gersko/fw-monitor-control
    ```
 
 3. **Virtual Environment erstellen und [`python-cec`](https://github.com/trainman419/python-cec) installieren**
