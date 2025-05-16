@@ -114,7 +114,11 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(str.encode(state))
         else:
-            self.send_response(400)
+            print_(f"HTTP request from {self.client_address[0]}: not found.")
+            self.send_response(404)
+            self.send_header("Content-type", "text/plain")
+            self.end_headers()
+            self.wfile.write(b"404 - Not Found")
 
 def server_thread_target():
     while True:
