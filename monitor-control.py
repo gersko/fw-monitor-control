@@ -29,7 +29,7 @@ def cec_init():
     print_("Initializing CEC...")
 
     fail_count = 0
-    while fail_count < 10:
+    while fail_count < 3:
         try:
             cec.init()
             print_("CEC initialization successful.")
@@ -40,7 +40,7 @@ def cec_init():
             print_(f"CEC initialization failed {fail_count}x: {e}")
             time.sleep(10)
 
-    print_("CEC initialization failed 10 times. Monitor control exiting...")
+    print_(f"CEC initialization failed {fail_count} times. Monitor control exiting...")
     exit(1)
 
 def get_monitor_state():
