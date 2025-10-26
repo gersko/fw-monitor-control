@@ -18,7 +18,7 @@ Schaltet per Taster oder HTTP Request den Monitor in der Fahrzeughalle an oder a
 - Raspberry Pi OS 10 (Buster), 12 (Bookworm) auf einem Pi Zero W
 - Python 3.7, 3.10
   - [RPi.GPIO](https://pypi.org/project/RPi.GPIO/) 0.7.1
-  - [python-cec](https://github.com/trainman419/python-cec) 227c69b (Version 0.2.8 mit Bugfix, der verhindert, dass die Funktion `cec.init()` einfriert, wenn sie fehlschlägt. Siehe [#61](https://github.com/trainman419/python-cec/issues/61))
+  - [python-cec](https://github.com/trainman419/python-cec) 9ec546f (Version 0.2.8 mit Bugfix, der verhindert, dass die Funktion `cec.init()` einfriert, wenn sie fehlschlägt, siehe [#61](https://github.com/trainman419/python-cec/issues/61) und Implementierung von `cec.close()`, siehe [#64](https://github.com/trainman419/python-cec/issues/64).)
 
 ### Installation
 

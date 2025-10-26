@@ -1,2 +1,2 @@
 RPi.GPIO==0.7.1
-cec @ git+https://github.com/trainman419/python-cec.git@227c69b  # V0.2.8 with fix for cec.init() freezing when failing
+cec @ git+https://github.com/trainman419/python-cec.git@9ec546f  # V0.2.8 with fix for cec.init() freezing when failing and cec.close() implementation

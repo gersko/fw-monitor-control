@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import atexit
 from sys import stdout
 import RPi.GPIO as GPIO
 import time
@@ -18,20 +19,29 @@ def print_(content):
     stdout.flush()  # Flush output buffer after each print
                     # for proper logging on Linux
 
+def exit_handler():
+    print_("Closing CEC...")
+    cec.close()
+
 def cec_init():
     global cec_reinit
 
     print_("Initializing CEC...")
-    success = False
-    try:
-        cec.init()
-        print_("CEC initialization successful.")
-        cec_reinit = False
-        success = True
-    except Exception as e:
-        print_(f"CEC initialization failed: {e}")
 
-    return success
+    fail_count = 0
+    while fail_count < 10:
+        try:
+            cec.init()
+            print_("CEC initialization successful.")
+            cec_reinit = False
+            return
+        except Exception as e:
+            fail_count += 1
+            print_(f"CEC initialization failed {fail_count}x: {e}")
+            time.sleep(10)
+
+    print_("CEC initialization failed 10 times. Monitor control exiting...")
+    exit(1)
 
 def get_monitor_state():
     global cec_reinit
@@ -148,18 +158,12 @@ time_http_last_action = 0
 
 print_("Monitor control started.")
 
+atexit.register(exit_handler)
+
 # Initialize CEC
-cec_initial_init_fail_count = 0
-while not cec_init():
-    cec_initial_init_fail_count += 1
-    if cec_initial_init_fail_count < 10:
-        time.sleep(10)
-        continue
-    else:
-        print_("CEC initialization failed 10 times. Monitor control exiting...")
-        exit()
+cec_init()
 cec_tv = cec.Device(cec.CECDEVICE_TV)
-get_monitor_state()
+#get_monitor_state()
 
 # Turn on monitor before the FF-Agent Status-Monitor RPi boots up
 toggle_monitor("turn_on")
@@ -176,9 +180,8 @@ while True:
 
     # Reinitialize CEC if necessary
     if cec_reinit:
-        if not cec_init():
-            time.sleep(10)
-            continue
+        cec.close()
+        cec_init()
 
     time_current = time.time()
 
@@ -196,7 +199,7 @@ while True:
 
     # Toggle monitor via HTTP request
     if not http_action is None:
-        if time_current - time_http_last_action >= 5:
+        if time_current - time_http_last_action >= 10:
             time_http_last_action = time_current
             toggle_monitor(http_action)
 
