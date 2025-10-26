@@ -59,10 +59,13 @@ Schaltet per Taster oder HTTP Request den Monitor in der Fahrzeughalle an oder a
    ```   
    [Unit]
    Description=Monitor Control
+   StartLimitIntervalSec=300
+   StartLimitBurst=3
+   StartLimitAction=reboot
 
    [Service]
    Type=simple
-   Restart=on-failure
+   Restart=always
    RestartSec=5s
    ExecStart=/home/pi/fw-monitor-control/.venv/bin/python /home/pi/fw-monitor-control/monitor-control.py
    User=root
