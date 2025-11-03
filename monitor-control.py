@@ -163,10 +163,7 @@ atexit.register(exit_handler)
 # Initialize CEC
 cec_init()
 cec_tv = cec.Device(cec.CECDEVICE_TV)
-#get_monitor_state()
-
-# Turn on monitor before the FF-Agent Status-Monitor RPi boots up
-toggle_monitor("turn_on")
+get_monitor_state()
 
 # Initialize GPIO
 GPIO.setmode(GPIO.BOARD)
