@@ -15,8 +15,9 @@ Schaltet per Taster oder HTTP Request den Monitor in der Fahrzeughalle an oder a
 
 ### Funktionierende Umgebung
 
-- Raspberry Pi OS 10 (Buster), 12 (Bookworm) auf einem Pi Zero W
-- Python 3.7, 3.10
+- FullPageOS 0.14.0 (Raspberry Pi OS 12 Bookworm) auf einem Pi 3B
+- [libCEC](https://github.com/Pulse-Eight/libcec) 7.1.1 (siehe [README.raspberrypi.md](https://github.com/Pulse-Eight/libcec/blob/master/docs/README.raspberrypi.md) für Kompilierung mit Raspberry Pi Treiber)
+- Python 3.11
   - [RPi.GPIO](https://pypi.org/project/RPi.GPIO/) 0.7.1
   - [python-cec](https://github.com/trainman419/python-cec) 9ec546f (Version 0.2.8 mit Bugfix, der verhindert, dass die Funktion `cec.init()` einfriert, wenn sie fehlschlägt, siehe [#61](https://github.com/trainman419/python-cec/issues/61) und Implementierung von `cec.close()`, siehe [#64](https://github.com/trainman419/python-cec/issues/64).)
 
@@ -24,9 +25,10 @@ Schaltet per Taster oder HTTP Request den Monitor in der Fahrzeughalle an oder a
 
 1. **Abhängigkeiten des Python Moduls [`python-cec`](https://github.com/trainman419/python-cec) installieren:**
 
-   ```
-   sudo apt install libcec-dev build-essential python3-dev
-   ```
+   1. ```
+      sudo apt install build-essential python3-dev
+      ```
+   2. `libCEC` mit Raspberry Pi Treiber kompilieren und installieren: siehe [README.raspberrypi.md](https://github.com/Pulse-Eight/libcec/blob/master/docs/README.raspberrypi.md)
 
 2. **In das Verzeichnis `/home/pi` wechseln und Repository klonen:**
 
@@ -95,10 +97,10 @@ Schaltet per Taster oder HTTP Request den Monitor in der Fahrzeughalle an oder a
    ```
 
 6. **HDMI Hotplug aktivieren:**  
-   Dazu folgende Zeile in `/boot/firmware/config.txt` hinzufügen:
+   Dazu Folgendes in `/boot/firmware/cmdline.txt` hinzufügen:
 
    ```
-   hdmi_force_hotplug=1
+   vc4.force_hotplug=1 video=HDMI-A-1:1920x1080M@60D
    ```
 
 
@@ -106,7 +108,7 @@ Schaltet per Taster oder HTTP Request den Monitor in der Fahrzeughalle an oder a
 
 ### Monitor per Taster steuern
 
-Um den Monitor an-/auszuschalten zieht man, bei Verwendung eines Pi Zeros, mit dem Taster `GPIO 18` auf `GND`. Wenn ein anderes Board verwendet wird, muss evtl. der GPIO Pin im Skript angepasst werden.
+Um den Monitor an-/auszuschalten zieht man mit dem Taster `GPIO 18` auf `GND`. Wenn ein anderes Board verwendet wird, muss evtl. der GPIO Pin im Skript angepasst werden.
 
 ### Monitor per HTTP Request steuern
 
