@@ -39,7 +39,7 @@ Schaltet per Taster oder HTTP Request den Monitor in der Fahrzeughalle an oder a
    git clone https://github.com/gersko/fw-monitor-control
    ```
 
-3. **Virtual Environment erstellen und [`python-cec`](https://github.com/trainman419/python-cec) installieren**
+3. **Virtual Environment erstellen und Requirements installieren:**
 
    ```
    cd fw-monitor-control/
@@ -116,15 +116,21 @@ Der Monitor kann ebenso über folgende HTTP Requests gesteuert werden:
 
 #### Monitor anschalten:
 
-       GET http://<ip-address>:8080/monitor?turn=on
+```
+GET http://<ip-address>:8080/monitor?turn=on
+```
 
 #### Monitor ausschalten:
 
-       GET http://<ip-address>:8080/monitor?turn=off
+```
+GET http://<ip-address>:8080/monitor?turn=off
+```
 
 #### Monitor Status abfragen:
 
-       GET http://<ip-address>:8080/monitor?state
+```
+GET http://<ip-address>:8080/monitor?state
+```
 
 ## Troubleshooting Hilfe: Der `cec-client`
 
@@ -132,7 +138,9 @@ Der `cec-client` ist Teil von [`cec-utils`](https://github.com/Pulse-Eight/libce
 
 ### Installation von [`cec-utils`](https://github.com/Pulse-Eight/libcec):
 
-    sudo apt install cec-utils
+```
+sudo apt install cec-utils
+```
 
 ### Eine Auswahl von wichtigen Befehlen:
 
