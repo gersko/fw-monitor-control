@@ -103,6 +103,11 @@ Schaltet per Taster oder HTTP Request den Monitor in der Fahrzeughalle an oder a
    vc4.force_hotplug=1 video=HDMI-A-1:1920x1080M@60D
    ```
 
+7. **Browser jeden Tag um 03:00 Uhr neustarten um Webseitenfehler zu verhindern:**  
+   Dazu einen Cron Job mittels `crontab -e` anlegen, der das von `FullPageOS` zur Verfügung gestellte `refresh`-Skript ausführt:
+   ```
+   0 3 * * * /home/pi/scripts/refresh &> /dev/null
+   ```
 
 ## Bedienung
 
