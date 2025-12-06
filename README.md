@@ -106,7 +106,7 @@ Schaltet per Taster oder HTTP Request den Monitor in der Fahrzeughalle an oder a
 7. **Browser jeden Tag um 03:00 Uhr neustarten um Webseitenfehler zu verhindern:**  
    Dazu einen Cron Job mittels `crontab -e` anlegen, der das von `FullPageOS` zur Verfügung gestellte `refresh`-Skript ausführt:
    ```
-   0 3 * * * /home/pi/scripts/refresh &> /dev/null
+   0 3 * * * /home/pi/scripts/reload_fullpageos_txt &> /dev/null
    ```
 
 ## Bedienung
