@@ -16,7 +16,7 @@ Schaltet per Taster oder HTTP Request den Monitor in der Fahrzeughalle an oder a
 ### Funktionierende Umgebung
 
 - FullPageOS 0.14.0 (Raspberry Pi OS 12 Bookworm) auf einem Pi 3B
-- [libCEC](https://github.com/Pulse-Eight/libcec) 7.1.1 (siehe [README.raspberrypi.md](https://github.com/Pulse-Eight/libcec/blob/master/docs/README.raspberrypi.md) für Kompilierung mit Raspberry Pi Treiber)
+- [libCEC](https://github.com/Pulse-Eight/libcec) 7.1.1 (siehe [README.raspberrypi.md](https://github.com/Pulse-Eight/libcec/blob/master/docs/README.raspberrypi.md#compilation-using-the-linux-kernel-driver) für Kompilierung mit Linux Kernel Treiber)
 - Python 3.11
   - [RPi.GPIO](https://pypi.org/project/RPi.GPIO/) 0.7.1
   - [python-cec](https://github.com/trainman419/python-cec) 9ec546f (Version 0.2.8 mit Bugfix, der verhindert, dass die Funktion `cec.init()` einfriert, wenn sie fehlschlägt, siehe [#61](https://github.com/trainman419/python-cec/issues/61) und Implementierung von `cec.close()`, siehe [#64](https://github.com/trainman419/python-cec/issues/64).)
@@ -28,7 +28,7 @@ Schaltet per Taster oder HTTP Request den Monitor in der Fahrzeughalle an oder a
    1. ```
       sudo apt install build-essential python3-dev
       ```
-   2. `libCEC` mit Raspberry Pi Treiber kompilieren und installieren: siehe [README.raspberrypi.md](https://github.com/Pulse-Eight/libcec/blob/master/docs/README.raspberrypi.md)
+   2. `libCEC` mit Linux Kernel Treiber Treiber kompilieren und installieren: siehe [README.raspberrypi.md](https://github.com/Pulse-Eight/libcec/blob/master/docs/README.raspberrypi.md#compilation-using-the-linux-kernel-driver)
 
 2. **In das Verzeichnis `/home/pi` wechseln und Repository klonen:**
 
